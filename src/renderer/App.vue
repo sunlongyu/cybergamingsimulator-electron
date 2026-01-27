@@ -1,10 +1,46 @@
 <template>
-    <div class="side-tab-bar" v-if="isShowSideTabBar">
-      <router-link to="/" :class="currentRouteName=='home'?'router-active':''">兵棋博弈</router-link>
+  <div class="app-layout">
+    <header class="top-nav">
+      <div class="brand">
+        <span class="brand-title">攻防博弈平台</span>
+        <span class="brand-subtitle">网络攻防信号博弈仿真</span>
+      </div>
+      <div class="top-actions">
+        <span class="status-pill">Mock 模式</span>
+      </div>
+    </header>
+    <div class="layout-body">
+      <aside class="side-nav">
+        <router-link
+          to="/environment-setup"
+          :class="currentRouteName === 'environmentSetup' ? 'router-active' : ''"
+        >
+          攻防环境设置
+        </router-link>
+        <router-link
+          to="/strategy-integration"
+          :class="currentRouteName === 'strategyIntegration' ? 'router-active' : ''"
+        >
+          智能策略集成
+        </router-link>
+        <router-link
+          to="/real-time-simulation"
+          :class="currentRouteName === 'realTimeSimulation' ? 'router-active' : ''"
+        >
+          攻防实时推演
+        </router-link>
+        <router-link
+          to="/multi-dim-analysis"
+          :class="currentRouteName === 'multiDimAnalysis' ? 'router-active' : ''"
+        >
+          多维可视分析
+        </router-link>
+      </aside>
+      <main class="main-container">
+        <router-view></router-view>
+      </main>
     </div>
-    <div class="main-container">
-      <router-view></router-view>
-    </div>
+  </div>
 </template>
 
 <script>
@@ -13,9 +49,7 @@ export default {
   title:'攻防博弈', 
   data() {
     return {
-      currentRouteName:'home',
-      pagesNameList:['home'],
-      isShowSideTabBar:false
+      currentRouteName:'environmentSetup'
     }
   },
   computed: {
@@ -30,12 +64,6 @@ export default {
   watch:{
     '$route.name'(newVal,oldVal){
       this.currentRouteName = newVal
-      console.log(newVal)
-      this.pagesNameList.forEach(item=>{
-        if(item == newVal){
-          this.isShowSideTabBar = true
-        }
-      })
     },
     '$store.state.global.message'(newVal,oldVal){
       if(newVal['message']=='')return
@@ -68,11 +96,7 @@ html,body{
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
   color: #2c3e50;
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
   width: 100%;
   height: 100%;
   padding: 0;
@@ -82,39 +106,99 @@ body::-webkit-scrollbar {
     width: 8px; /* 设置滚动条宽度 */
 }
 
-.side-tab-bar{
-  width: 80px;
-  height: 100%;
+.app-layout {
   display: flex;
-  align-items: flex-start;
-  justify-content: center;
-  box-shadow: rgb(239, 237, 237) 2px 1px;
-  border-radius: 0 0 10px 0;
-  flex-wrap: wrap;
-  word-break: break-all;
-  padding-top: 30px;
-}
-.side-tab-bar a{
-  font-size: 14px;
+  flex-direction: column;
   width: 100%;
-  padding: 30px 0;
-}
-.main-container{
   height: 100%;
-  width: 100%;
+}
+
+.top-nav {
+  height: 60px;
+  background: #0f2c4c;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  box-shadow: 0 2px 8px rgba(15, 44, 76, 0.2);
+}
+
+.brand {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.brand-title {
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: 1px;
+}
+
+.brand-subtitle {
+  font-size: 12px;
+  color: #c9d6e8;
+}
+
+.top-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 12px;
+}
+
+.status-pill {
+  padding: 4px 10px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.layout-body {
+  flex: 1;
+  display: flex;
+  min-height: 0;
+  background: #f5f7fb;
+}
+
+.side-nav{
+  width: 180px;
+  background: #ffffff;
+  border-right: 1px solid #e6ebf2;
+  display: flex;
+  flex-direction: column;
+  padding: 16px 8px;
+  gap: 6px;
+}
+
+.side-nav a{
+  padding: 12px 16px;
+  border-radius: 8px;
+  font-size: 14px;
+  color: #2c3e50;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.side-nav a:hover{
+  color: #fff;
+  background-color: #2f6ed6;
+}
+
+.main-container{
+  flex: 1;
   min-width: 500px;
   display: flex;
-  align-items: flex-start;
+  align-items: stretch;
   justify-content: center;
+  padding: 16px;
+  overflow: auto;
 }
+
 a{text-decoration: none;color:#333;}
 
-.side-tab-bar a:hover{
-  color: white;
-  background-color: #337ecc;
-}
 .router-link-active{
   color: white;
-  background-color: #337ecc;
+  background-color: #2f6ed6;
 }
 </style>

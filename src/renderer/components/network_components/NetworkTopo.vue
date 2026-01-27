@@ -35,7 +35,7 @@
             </div>
         
         </div>
-        <div class="large-screen-monitor" @click="openlargeScreenMonitor">
+        <div v-if="showLargeScreen" class="large-screen-monitor" @click="openlargeScreenMonitor">
             大屏监控
         </div>
          <!--网络配置-->
@@ -83,6 +83,12 @@ import {getNetworkDynamicMapData,proccessNetworkDynamicMapData} from "@/core/env
 const vis = require("vis-network/dist/vis-network.min");
 export default {
      name: 'networkTopo',
+     props: {
+        showLargeScreen: {
+            type: Boolean,
+            default: true
+        }
+     },
      data() {
          return {
             currentNetworkMode:'本地',
